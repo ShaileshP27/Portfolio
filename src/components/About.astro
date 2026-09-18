@@ -1,0 +1,84 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { profile, passions } from '../data/site';
+
+const pillars = [
+  {
+    title: 'Architecture first',
+    body: 'Layered REST APIs, subdomain multi-tenancy and module-based ACL — structure decided before the first endpoint ships.',
+    icon: 'M4 7h16M4 12h16M4 17h10',
+  },
+  {
+    title: 'Typed end to end',
+    body: 'Next.js TypeScript monorepos with Zustand, React Query and strict Zod validation so the contract holds at every boundary.',
+    icon: 'm8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14',
+  },
+  {
+    title: 'Ships to production',
+    body: 'Dockerised builds deployed to AWS EC2 through GitHub Actions pipelines, working alongside infrastructure teams.',
+    icon: 'M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2',
+  },
+];
+
+const passionIcons: Record<string, string> = {
+  mountain: 'm3 19 6-9 4 5 3-4 5 8H3Z',
+  camera: 'M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Zm8 3.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
+  music: 'M9 18V5l11-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm11-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',
+};
+---
+
+<section id="about" class="scroll-mt-24 py-20 sm:py-28">
+  <div class="shell">
+    <SectionHeading
+      eyebrow="About"
+      title="A decade of turning requirements into shipped software"
+      lead={profile.summary}
+    />
+
+    <div class="mt-14 grid gap-5 md:grid-cols-3">
+      {
+        pillars.map((pillar, i) => (
+          <article class="card card-hover p-6" style={`--reveal-delay: ${i * 90}ms;`} data-reveal>
+            <span
+              class="grid h-11 w-11 place-items-center rounded-xl border"
+              style="border-color: var(--surface-border-strong); background: color-mix(in oklab, var(--color-brand-500) 12%, transparent); color: var(--color-brand-300);"
+            >
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d={pillar.icon} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <h3 class="mt-5 text-lg font-semibold tracking-tight" style="color: var(--text-primary);">
+              {pillar.title}
+            </h3>
+            <p class="mt-2.5 text-sm leading-relaxed" style="color: var(--text-secondary);">
+              {pillar.body}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Beyond the editor -->
+    <div class="card mt-5 flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7" data-reveal>
+      <div>
+        <h3 class="text-sm font-semibold tracking-tight" style="color: var(--text-primary);">Beyond the editor</h3>
+        <p class="mt-1 text-sm" style="color: var(--text-muted);">What keeps the other half of my week interesting.</p>
+      </div>
+      <ul class="flex flex-wrap gap-2.5">
+        {
+          passions.map((passion) => (
+            <li
+              class="inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-medium"
+              style="border-color: var(--surface-border); color: var(--text-secondary);"
+            >
+              <svg class="h-4 w-4 shrink-0" style="color: var(--color-accent-400);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d={passionIcons[passion.icon]} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              {passion.label}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

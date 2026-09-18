@@ -1,0 +1,42 @@
+---
+import { profile, navLinks } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="no-print border-t py-10" style="border-color: var(--surface-border);">
+  <div class="shell">
+    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+      <div class="flex items-center gap-3">
+        <span
+          class="grid h-8 w-8 place-items-center rounded-lg bg-linear-to-br from-brand-400 to-accent-500 text-xs font-extrabold text-ink-950"
+          aria-hidden="true"
+        >
+          {profile.initials}
+        </span>
+        <p class="text-sm" style="color: var(--text-muted);">
+          © {year} {profile.name}
+        </p>
+      </div>
+
+      <nav aria-label="Footer">
+        <ul class="flex flex-wrap justify-center gap-x-5 gap-y-2">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm transition-colors duration-200 hover:text-brand-300"
+                  style="color: var(--text-muted);"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+</footer>

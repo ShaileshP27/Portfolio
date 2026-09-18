@@ -1,0 +1,45 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { education } from '../data/site';
+---
+
+<section id="education" class="scroll-mt-24 py-20 sm:py-28">
+  <div class="shell">
+    <SectionHeading eyebrow="Education" title="Academic background" />
+
+    <div class="mt-14 grid gap-4 sm:grid-cols-2">
+      {
+        education.map((item, i) => (
+          <article
+            class="card card-hover flex items-start gap-4 p-5 sm:p-6"
+            style={`--reveal-delay: ${i * 70}ms;`}
+            data-reveal
+          >
+            <span
+              class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border"
+              style="border-color: var(--surface-border-strong); color: var(--color-brand-400);"
+              aria-hidden="true"
+            >
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="m12 4 9 4.5-9 4.5-9-4.5L12 4Z" stroke-linejoin="round" />
+                <path d="M7 11v4.5c0 1.1 2.2 2.5 5 2.5s5-1.4 5-2.5V11" stroke-linecap="round" />
+              </svg>
+            </span>
+
+            <div class="min-w-0">
+              <h3 class="text-base font-semibold tracking-tight" style="color: var(--text-primary);">
+                {item.degree}
+              </h3>
+              <p class="mt-1 text-sm" style="color: var(--text-secondary);">
+                {item.institution}
+              </p>
+              <p class="mt-2.5 font-mono text-xs" style="color: var(--text-muted);">
+                {item.period}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

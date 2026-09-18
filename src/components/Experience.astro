@@ -1,0 +1,106 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { experience } from '../data/site';
+---
+
+<section id="experience" class="scroll-mt-24 py-20 sm:py-28">
+  <div class="shell">
+    <SectionHeading
+      eyebrow="Experience"
+      title="Where I've built"
+      lead="Ten years across two product organisations — from security-domain applications on legacy MVC stacks to a multi-tenant SaaS platform running in containers."
+    />
+
+    <ol class="relative mt-14 space-y-10">
+      <!-- Timeline rail (decorative, hidden on small screens) -->
+      <span
+        class="pointer-events-none absolute top-2 bottom-2 left-[0.4375rem] hidden w-px sm:block"
+        style="background: linear-gradient(to bottom, var(--color-brand-400), var(--color-accent-500), transparent);"
+        aria-hidden="true"></span>
+
+      {
+        experience.map((role, i) => (
+          <li class="relative sm:pl-12" style={`--reveal-delay: ${i * 110}ms;`} data-reveal>
+            <span
+              class="absolute top-6 left-0 hidden h-3.5 w-3.5 rounded-full border-2 sm:block"
+              style={`border-color: var(--surface); background: ${role.current ? 'var(--color-brand-400)' : 'var(--color-ink-600)'}; box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-brand-500) ${role.current ? '22%' : '0%'}, transparent);`}
+              aria-hidden="true"
+            />
+
+            <article class="card card-hover p-6 sm:p-8">
+              <header class="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
+                <div>
+                  <h3 class="text-xl font-bold tracking-tight" style="color: var(--text-primary);">
+                    {role.title}
+                  </h3>
+                  <p class="mt-1 text-sm font-medium" style="color: var(--color-brand-300);">
+                    {role.company} · {role.location}
+                  </p>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  {role.current && (
+                    <span class="inline-flex items-center gap-1.5 rounded-full border border-brand-400/35 bg-brand-500/10 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-brand-300">
+                      <span class="h-1.5 w-1.5 rounded-full bg-brand-400" aria-hidden="true" />
+                      CURRENT
+                    </span>
+                  )}
+                  <span class="font-mono text-xs whitespace-nowrap" style="color: var(--text-muted);">
+                    {role.period}
+                  </span>
+                </div>
+              </header>
+
+              <ul class="mt-6 space-y-3">
+                {role.points.map((point) => (
+                  <li class="flex gap-3 text-sm leading-relaxed" style="color: var(--text-secondary);">
+                    <svg
+                      class="mt-1.5 h-3 w-3 shrink-0"
+                      style="color: var(--color-brand-400);"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m2 6 3 3 5-6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {role.project && (
+                <div
+                  class="mt-7 rounded-xl border border-l-2 p-5 sm:p-6"
+                  style="border-color: var(--surface-border); border-left-color: var(--color-accent-500); background: color-mix(in oklab, var(--color-accent-500) 5%, transparent);"
+                >
+                  <h4 class="font-mono text-xs tracking-[0.12em] uppercase" style="color: var(--color-accent-300);">
+                    {role.project.name}
+                  </h4>
+                  <dl class="mt-4 space-y-3.5">
+                    {role.project.details.map((detail) => (
+                      <div class="grid gap-1 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:gap-4">
+                        <dt class="text-sm font-semibold" style="color: var(--text-primary);">
+                          {detail.label}
+                        </dt>
+                        <dd class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                          {detail.text}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
+
+              <ul class="mt-6 flex flex-wrap gap-2">
+                {role.stack.map((tech) => (
+                  <li class="chip">{tech}</li>
+                ))}
+              </ul>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

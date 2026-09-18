@@ -1,0 +1,154 @@
+---
+import { navLinks, profile } from '../data/site';
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header
+  id="site-header"
+  class="no-print fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300"
+  style="padding-top: env(safe-area-inset-top, 0px);"
+>
+  <div class="shell">
+    <nav class="flex h-16 items-center justify-between gap-4 md:h-20" aria-label="Primary">
+      <!-- Wordmark -->
+      <a href="#top" class="group flex items-center gap-2.5" aria-label={`${profile.shortName}, back to top`}>
+        <span
+          class="grid h-9 w-9 place-items-center rounded-lg bg-linear-to-br from-brand-400 to-accent-500 text-sm font-extrabold tracking-tight text-ink-950 shadow-lg shadow-brand-500/20"
+        >
+          {profile.initials}
+        </span>
+        <span class="hidden text-sm font-semibold tracking-tight sm:block" style="color: var(--text-primary);">
+          {profile.shortName}
+        </span>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="hidden items-center gap-1 lg:flex">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                data-navlink
+                class="relative rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 hover:text-brand-300 data-active:text-brand-300"
+                style="color: var(--text-secondary);"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="flex items-center gap-2">
+        <ThemeToggle />
+
+        <a
+          href="#contact"
+          class="hidden items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-semibold transition-all duration-200 hover:border-brand-400/60 hover:text-brand-300 sm:inline-flex"
+          style="border-color: var(--surface-border-strong); color: var(--text-primary);"
+        >
+          Get in touch
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          id="menu-btn"
+          type="button"
+          class="grid h-10 w-10 place-items-center rounded-lg border lg:hidden"
+          style="border-color: var(--surface-border-strong); color: var(--text-primary);"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg
+            id="icon-open"
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"></path>
+          </svg>
+          <svg
+            id="icon-close"
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+            hidden
+          >
+            <path d="m6 6 12 12M18 6 6 18" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div id="mobile-menu" class="lg:hidden" hidden>
+    <div class="shell pb-4">
+      <ul
+        class="card flex flex-col gap-1 p-2"
+        style="background: color-mix(in oklab, var(--surface) 92%, transparent);"
+      >
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                data-mobile-link
+                class="block rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-brand-300"
+                style="color: var(--text-secondary);"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  // Frosted backdrop appears only once the page has scrolled.
+  const onScroll = () => {
+    if (!header) return;
+    const scrolled = window.scrollY > 12;
+    header.style.backgroundColor = scrolled ? 'color-mix(in oklab, var(--surface) 78%, transparent)' : 'transparent';
+    header.style.backdropFilter = scrolled ? 'blur(14px) saturate(140%)' : 'none';
+    header.style.borderBottom = scrolled ? '1px solid var(--surface-border)' : '1px solid transparent';
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const setMenu = (open: boolean) => {
+    if (!menu || !btn || !iconOpen || !iconClose) return;
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    iconOpen.hidden = open;
+    iconClose.hidden = !open;
+  };
+
+  btn?.addEventListener('click', () => setMenu(menu?.hidden ?? true));
+  document.querySelectorAll('[data-mobile-link]').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
+  });
+  // Drawer is mobile-only; collapse it if the viewport grows past the lg breakpoint.
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+    if (e.matches) setMenu(false);
+  });
+</script>

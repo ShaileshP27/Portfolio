@@ -1,0 +1,252 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/shailesh.jpg';
+import { profile, stats } from '../data/site';
+
+const marquee = ['Laravel', 'Next.js', 'TypeScript', 'PostgreSQL', 'React', 'Docker', 'AWS', 'Redis', 'Stripe'];
+
+// The strip is rendered SETS times and animated by exactly 1/SETS of its width, so the
+// loop is seamless. One set must be wider than the viewport or a gap appears at the end —
+// 4 sets of this list clears an ultrawide screen.
+const SETS = 4;
+const marqueeItems = Array.from({ length: SETS }, () => marquee).flat();
+---
+
+<section id="top" class="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
+  <!-- Ambient background: blueprint grid + two soft brand glows -->
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="grid-bg absolute inset-0"></div>
+    <div
+      class="absolute -top-40 left-1/2 h-[34rem] w-[34rem] -translate-x-2/3 rounded-full blur-[120px]"
+      style="background: var(--glow-a);"
+    >
+    </div>
+    <div
+      class="absolute -top-24 right-0 h-[26rem] w-[26rem] translate-x-1/4 rounded-full blur-[120px]"
+      style="background: var(--glow-b);"
+    >
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+      <!-- Copy -->
+      <div>
+        <p
+          class="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium"
+          style="border-color: var(--surface-border-strong); color: var(--text-secondary);"
+          data-reveal
+        >
+          <span class="relative flex h-2 w-2" aria-hidden="true">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-400"></span>
+          </span>
+          {profile.availability}
+        </p>
+
+        <h1
+          class="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
+          style="--reveal-delay: 60ms;"
+          data-reveal
+        >
+          {/* inline-block so the gradient box hugs the name and sweeps across all of it,
+              rather than stretching over the full width of the heading block. */}
+          <span class="text-gradient inline-block">{profile.name}</span>
+        </h1>
+
+        <p
+          class="mt-4 font-mono text-sm tracking-wide sm:text-base"
+          style="color: var(--color-brand-400); --reveal-delay: 120ms;"
+          data-reveal
+        >
+          {profile.role} · 10 years · {profile.location}
+        </p>
+
+        <p
+          class="mt-6 max-w-xl text-lg leading-relaxed"
+          style="color: var(--text-secondary); --reveal-delay: 180ms;"
+          data-reveal
+        >
+          {profile.tagline}
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-3" style="--reveal-delay: 240ms;" data-reveal>
+          <a
+            href="#projects"
+            class="group inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-brand-500 to-accent-500 px-5 py-3 text-sm font-semibold text-ink-950 shadow-lg shadow-brand-500/25 transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            View my work
+            <svg
+              class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14m0 0-5-5m5 5-5 5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+
+          <a
+            href="#contact"
+            class="inline-flex items-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition-colors duration-200 hover:border-brand-400/60 hover:text-brand-300"
+            style="border-color: var(--surface-border-strong); color: var(--text-primary);"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="m3.5 7 8.5 6 8.5-6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            Get in touch
+          </a>
+
+          <div class="flex items-center gap-1 sm:ml-2">
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="grid h-11 w-11 place-items-center rounded-xl border transition-colors duration-200 hover:border-brand-400/60 hover:text-brand-300"
+              style="border-color: var(--surface-border); color: var(--text-secondary);"
+              aria-label="LinkedIn profile"
+            >
+              <svg class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05a4.2 4.2 0 0 1 3.75-2c4 0 4.75 2.6 4.75 6V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.2 1.46-2.2 2.96V21h-4V9Z"
+                ></path>
+              </svg>
+            </a>
+            <a
+              href={`mailto:${profile.email}`}
+              class="grid h-11 w-11 place-items-center rounded-xl border transition-colors duration-200 hover:border-brand-400/60 hover:text-brand-300"
+              style="border-color: var(--surface-border); color: var(--text-secondary);"
+              aria-label="Send an email"
+            >
+              <svg class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="m3.5 7 8.5 6 8.5-6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portrait -->
+      <div class="order-first flex justify-center lg:order-none lg:justify-end" style="--reveal-delay: 100ms;" data-reveal>
+        <div class="relative">
+          <div
+            class="absolute -inset-4 rounded-[2rem] bg-linear-to-br from-brand-500/25 via-transparent to-accent-500/25 blur-2xl"
+            aria-hidden="true"
+          >
+          </div>
+
+          <div
+            class="relative overflow-hidden rounded-3xl border p-1.5 backdrop-blur-xl"
+            style="border-color: var(--surface-border-strong); background: var(--surface-raised);"
+          >
+            <Image
+              src={portrait}
+              alt={`Portrait of ${profile.name}`}
+              width={340}
+              height={425}
+              quality={88}
+              loading="eager"
+              fetchpriority="high"
+              class="h-[20rem] w-[16rem] rounded-[1.25rem] object-cover object-center sm:h-[26.5rem] sm:w-[21.25rem]"
+            />
+          </div>
+
+          <!-- Floating credential badge -->
+          <div
+            class="absolute -bottom-5 -left-4 flex items-center gap-2.5 rounded-2xl border px-4 py-3 shadow-xl backdrop-blur-xl sm:-left-8"
+            style="border-color: var(--surface-border-strong); background: var(--surface-raised); box-shadow: 0 20px 45px -25px rgb(0 0 0 / 0.7);"
+          >
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-linear-to-br from-brand-400 to-accent-500 text-ink-950">
+              <svg class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span>
+              <span class="block text-sm font-bold" style="color: var(--text-primary);">Full Stack</span>
+              <span class="block font-mono text-[0.65rem] tracking-wide" style="color: var(--text-muted);">
+                Laravel · Next.js
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <dl class="mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border lg:grid-cols-4" style="border-color: var(--surface-border); background: var(--surface-border);">
+      {
+        stats.map((stat, i) => (
+          <div class="px-5 py-6 text-center sm:px-6" style={`background: var(--surface); --reveal-delay: ${i * 70}ms;`} data-reveal>
+            <dt class="sr-only">{stat.label}</dt>
+            <dd>
+              <span class="block text-3xl font-extrabold tracking-tight sm:text-4xl">
+                <span class="text-gradient">{stat.value}{stat.suffix}</span>
+              </span>
+              <span class="mt-2 block text-xs leading-snug sm:text-sm" style="color: var(--text-secondary);">
+                {stat.label}
+              </span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <!-- Tech marquee -->
+    <div class="relative mt-10 overflow-hidden" data-reveal>
+      <div class="marquee-track flex w-max">
+        {
+          marqueeItems.map((tech, i) => (
+            <span
+              class="chip mr-3"
+              data-dup={i >= marquee.length ? '' : undefined}
+              aria-hidden={i >= marquee.length ? 'true' : undefined}
+            >
+              {tech}
+            </span>
+          ))
+        }
+      </div>
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-16" style="background: linear-gradient(to right, var(--surface), transparent);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-16" style="background: linear-gradient(to left, var(--surface), transparent);" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Spacing comes from each chip's margin-right rather than a flex `gap`, so every set is
+     exactly the same width and -25% lands precisely on a set boundary — no drift, no seam. */
+  .marquee-track {
+    animation: marquee 34s linear infinite;
+    will-change: transform;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-25%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 0.75rem;
+    }
+    /* Without the scroll there is no reason to repeat the list. */
+    .marquee-track [data-dup] {
+      display: none;
+    }
+  }
+</style>

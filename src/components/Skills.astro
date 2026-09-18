@@ -1,0 +1,59 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { skillGroups } from '../data/site';
+
+const icons: Record<string, string> = {
+  server: 'M4 5h16v5H4zM4 14h16v5H4zM7.5 7.5h.01M7.5 16.5h.01',
+  layout: 'M4 5h16v14H4zM4 9h16M9 9v10',
+  cloud: 'M7 18h9a4 4 0 0 0 .6-7.95A6 6 0 0 0 5.2 11.2 3.4 3.4 0 0 0 7 18Z',
+  tools: 'M14.7 6.3a4 4 0 0 1-5 5L5 16v3h3l4.7-4.7a4 4 0 0 0 5-5l-2.1 2.1-2.1-.6-.6-2.1z',
+};
+---
+
+<section id="stack" class="scroll-mt-24 py-20 sm:py-28">
+  <div class="shell">
+    <SectionHeading
+      eyebrow="Tech stack"
+      title="Tools I reach for"
+      lead="The stack I use day to day, grouped by where it sits in the system."
+    />
+
+    <div class="mt-14 grid gap-5 md:grid-cols-2">
+      {
+        skillGroups.map((group, i) => (
+          <article class="card card-hover p-6 sm:p-7" style={`--reveal-delay: ${i * 80}ms;`} data-reveal>
+            <div class="flex items-start gap-4">
+              <span
+                class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border"
+                style="border-color: var(--surface-border-strong); background: color-mix(in oklab, var(--color-accent-500) 10%, transparent); color: var(--color-accent-300);"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d={icons[group.icon]} stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <div>
+                <h3 class="text-lg font-semibold tracking-tight" style="color: var(--text-primary);">
+                  {group.title}
+                </h3>
+                <p class="mt-1.5 text-sm leading-relaxed" style="color: var(--text-muted);">
+                  {group.blurb}
+                </p>
+              </div>
+            </div>
+
+            <ul class="mt-6 flex flex-wrap gap-2">
+              {group.items.map((item) => (
+                <li
+                  class="rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors duration-200 hover:border-brand-400/50 hover:text-brand-300"
+                  style="border-color: var(--surface-border); color: var(--text-secondary);"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
